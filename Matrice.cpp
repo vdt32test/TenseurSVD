@@ -4,20 +4,15 @@
 Matrice::Matrice():
     m_mat(nullptr),
     m_dims()
-{
-    //std::cout << __PRETTY_FUNCTION__ << std::endl;
-}
+{}
 
 
 Matrice::Matrice(int lig, int col):
     m_mat(nullptr),
     m_dims()
 {
-    //std::cout << __PRETTY_FUNCTION__ << std::endl;
-
     m_dims[0] = lig;
     m_dims[1] = col;
-    //std::cout << "dims[0] = " << m_dims[0] << "; dims[1] = " << m_dims[1] << std::endl;
 
     if(lig == 0)
     {
@@ -26,7 +21,6 @@ Matrice::Matrice(int lig, int col):
     }
 
     Vecteur tmp(lig);
-    //tmp.affiche();
     m_mat = new Vecteur[col];
     for(int i = 0; i < col; i++)
     {   
@@ -39,8 +33,6 @@ Matrice::Matrice(const Vecteur &vec):
     m_mat(nullptr),
     m_dims()
 {
-    //std::cout << __PRETTY_FUNCTION__ << std::endl;
-    
     int size = vec.getDim();
     m_dims[0] = m_dims[1] = size;
 
@@ -58,8 +50,6 @@ Matrice::Matrice(const Vecteur *vecs, int col):
     m_mat(nullptr),
     m_dims()
 {
-    //std::cout << __PRETTY_FUNCTION__ << std::endl;
-
     assert(vecs != nullptr && col != 0);
     m_dims[0] = vecs[0].getDim();
     m_dims[1] = col;
@@ -77,8 +67,6 @@ Matrice::Matrice(const Matrice &mat):
     m_mat(nullptr),
     m_dims()
 {
-    //std::cout << __PRETTY_FUNCTION__ << std::endl;
-
     m_dims[0] = mat.m_dims[0];
     m_dims[1] = mat.m_dims[1];
     if(m_dims[0] == 0)
@@ -97,7 +85,6 @@ Matrice::Matrice(const Matrice &mat):
 
 Matrice::~Matrice()
 {
-    //std::cout << "Matrice::~Matrice" << std::endl;
     if(m_dims[0] != 0)
     {
         assert(m_dims[1] != 0);
@@ -110,7 +97,6 @@ Matrice::~Matrice()
         assert(m_dims[1] == 0);
         assert(m_mat == nullptr);
     }
-    //std::cout << "Matrice::~Matrice end" << std::endl;
 }
 
 
@@ -153,7 +139,6 @@ Matrice Matrice::operator-(const Matrice &mat) const
 
 Matrice Matrice::operator*(const Matrice &mat) const
 {
-    //puts("operator*:1");   
     assert(m_dims[1] == mat.m_dims[0]);
 
     Matrice new_mat(m_dims[0], mat.m_dims[1]);
@@ -170,7 +155,6 @@ Matrice Matrice::operator*(const Matrice &mat) const
         }
     }
 
-    //puts("operator*:2"); 
     return new_mat;
 }
 
@@ -209,11 +193,7 @@ Vecteur Matrice::mvprod(const Vecteur &vec) const
 
 Matrice Matrice::transpose() const
 {
-    //puts("transpose:1"); 
-
     Matrice new_mat(m_dims[1], m_dims[0]);
-    //affiche();
-    //new_mat.affiche();
 
     for(int i = 0; i < m_dims[1]; i++)
     {
@@ -223,33 +203,28 @@ Matrice Matrice::transpose() const
         }
     }
 
-    //puts("transpose:2"); 
     return new_mat;
 }
 
 
 Matrice Matrice::submat(int i1, int i2, int j1, int j2) const
 {
-    //puts("submat:1");
     TEST_ASSERT(i1, >=, 0);
     TEST_ASSERT(i1, <=, i2);
     TEST_ASSERT(i2, <, m_dims[0]);
     assert(i1 >= 0 && i1 <= i2 && i2 < m_dims[0]);
     assert(j1 >= 0 && j1 <= j2 && j2 < m_dims[1]);
 
-    //affiche();
     Matrice mat(i2-i1+1, j2-j1+1);
 
     for(int i = i1; i <= i2; i++)
     {
         for(int j = j1; j <= j2; j++)
         {
-            //std::cout << "i = " << i << ", j = " << j << std::endl;
             mat.m_mat[j-j1][i-i1] = m_mat[j][i];
         }
     }
 
-    //puts("submat:10");
     return mat;
 }
 
@@ -328,19 +303,13 @@ void Matrice::setValues(const Matrice &mat, int i, int j)
     assert(i >= 0 && i + mat.getLigDim() <= m_dims[0]);
     assert(j >= 0 && j + mat.getColDim() <= m_dims[1]);
 
-    //puts("1");
-    //std::cout << "i = " << i << std::endl;
-    //std::cout << "j = " << j << std::endl;    
     for(int k = 0; k < mat.getLigDim(); k++)
     {
         for(int l = 0; l < mat.getColDim(); l++)
         {
-            //std::cout << "k = " << k << std::endl;
-            //std::cout << "l = " << l << std::endl;  
             m_mat[l+j][k+i] = mat[l][k];
         }
     }
-    //puts("5");
 }
 
 
